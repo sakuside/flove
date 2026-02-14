@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For My Dearest Zhang Yebing ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #050505; overflow: hidden; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; cursor: pointer; }
+
+        .page { position: absolute; width: 100%; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 1.5s ease; padding: 20px; }
+        .hidden { opacity: 0; pointer-events: none; }
+
+        /* --- 第一幕：星空 --- */
+        #canvas-stars { position: absolute; top: 0; left: 0; z-index: 1; }
+        .letter-container { position: relative; z-index: 10; text-align: center; background: rgba(0, 0, 0, 0.4); padding: 40px; border-radius: 20px; backdrop-filter: blur(5px); border: 1px solid rgba(255, 192, 203, 0.3); max-width: 85%; color: white; animation: fadeIn 3s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        h1 { color: #ff4d6d; font-size: 2em; margin-bottom: 25px; text-shadow: 0 0 10px #ff4d6d; letter-spacing: 2px; }
+        .eng-text { font-size: 1.1em; line-height: 1.8; color: #f0f0f0; font-style: italic; white-space: pre-line; }
+
+        /* --- 第二幕：相册 --- */
+        #page2 { background: radial-gradient(circle, #2c0812 0%, #050505 100%); }
+        .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; z-index: 10; margin-bottom: 20px; }
+        .photo-item { width: 95px; height: 125px; background: white; padding: 5px 5px 20px 5px; box-shadow: 0 8px 25px rgba(0,0,0,0.5); transform: rotate(var(--r)); animation: float 4s ease-in-out infinite alternate; border: 1px solid rgba(255,255,255,0.2); }
+        .photo-item img { width: 100%; height: 95px; object-fit: cover; }
+        @keyframes float { from { transform: rotate(var(--r)) translateY(0); } to { transform: rotate(var(--r)) translateY(-10px); } }
+        .timer-info { text-align: center; z-index: 10; color: #ffb7c5; }
+        #timer { font-size: 1.5em; font-weight: bold; text-shadow: 0 0 10px rgba(255, 77, 109, 0.5); margin: 15px 0; }
+        .promise-text { font-size: 0.95em; color: #ffccd5; font-style: italic; line-height: 1.4; padding: 0 10px; margin-bottom: 30px; }
+
+        /* --- 第三幕：沉浸式关键词云 --- */
+        #video-page { background: black; z-index: 2000; overflow: hidden; }
+        #myVideo { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
+
+        .memory-word {
+            position: absolute;
+            color: white;
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 3000;
+            font-family: 'ZCOOL XiaoWei', serif;
+            opacity: 0;
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
+            animation: breatheWord var(--d) ease-in-out forwards;
+        }
+
+        @keyframes breatheWord {
+            0% { transform: scale(0.5); opacity: 0; filter: blur(10px); }
+            20% { opacity: 0.8; filter: blur(0px); }
+            80% { opacity: 0.8; transform: scale(1.1) translate(var(--mx), var(--my)); }
+            100% { transform: scale(1.3) translate(var(--mx), var(--my)); opacity: 0; }
+        }
+
+        .click-hint { position: fixed; bottom: 30px; width: 100%; text-align: center; color: rgba(255,255,255,0.4); font-size: 13px; z-index: 5000; letter-spacing: 1px; }
+    </style>
+</head>
+<body onclick="handleStep()">
+
+    <div class="click-hint" id="hint">Tap to start our romance</div>
+
+    <div id="page1" class="page">
+        <canvas id="canvas-stars"></canvas>
+        <div class="letter-container">
+            <h1 id="title">❤️ Happy Valentine's Day ❤️</h1>
+            <div class="eng-text">
+                To my dearest Zhang Yebing,
+                Though we are miles apart, my heart remains by your side.
+                Wait for my return, and we shall fulfill every romance we've missed.
+                Yours forever,
+                Zhang Yunzhe
+            </div>
+        </div>
+    </div>
+
+    <div id="page2" class="page hidden">
+        <div class="photo-grid">
+            <div class="photo-item" style="--r: -5deg;"><img src="https://s41.ax1x.com/2026/02/14/pZLkbfU.jpg"></div>
+            <div class="photo-item" style="--r: 3deg;"><img src="https://s41.ax1x.com/2026/02/14/pZLkOl4.jpg"></div>
+            <div class="photo-item" style="--r: -2deg;"><img src="https://s41.ax1x.com/2026/02/14/pZLkLpF.jpg"></div>
+            <div class="photo-item" style="--r: 4deg;"><img src="https://s41.ax1x.com/2026/02/14/pZLkHYT.jpg"></div>
+            <div class="photo-item" style="--r: -4deg;"><img src="https://s41.ax1x.com/2026/02/14/pZLkxmR.jpg"></div>
+            <div class="photo-item" style="--r: 2deg;"><img src="https://s41.ax1x.com/2026/02/14/pZLkjX9.jpg"></div>
+        </div>
+        <div class="timer-info">
+            <p style="color: #ccc; font-size: 0.8em;">We have been in love for</p>
+            <div id="timer"></div>
+            <p class="promise-text">"Though days turn into years, you'll always be the one I cherish most in my palms."</p>
+        </div>
+    </div>
+
+    <div id="video-page" class="page hidden">
+        <video id="myVideo" playsinline loop muted>
+            <source src="https://sakuside.github.io/flove/forzyb.mp4" type="video/mp4">
+        </video>
+        <audio id="myAudio" loop>
+            <source src="https://sakuside.github.io/flove/flove.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <script>
+        let step = 1;
+        const start = new Date("2026-02-03 21:02:00");
+
+        const chatKeywords = [
+            "宝贝", "晚安", "想你", "小冰", "一直在", "张烨冰", "电话", "抱抱", "厉害", "宝宝",
+            "明天","好呢","我在","西瓜","花","到家","回家","漂亮","哪儿","好看","哥哥",
+            "想去","陪你","哇！","小张","咖啡","棒棒糖","小蛋糕","粉色","学校","真好",
+            "奶茶","茶姬","乖乖","超级！","电影","喜人","张老师","蹦极！","打球","练腿",
+            "健身","霸占","音乐","夕阳","嘻嘻","实验","哈哈哈哈哈哈","酒",
+            "记得吃药", "多喝水", "降温了", "耳机分你一半",
+            "My Love", "Valentine", "Forever", "Missing You", "Happy"
+        ];
+
+        function spawnMemory() {
+            if (step !== 3) return;
+            const word = document.createElement('div');
+            word.className = 'memory-word';
+            word.innerText = chatKeywords[Math.floor(Math.random() * chatKeywords.length)];
+
+            word.style.left = (Math.random() * 60 + 20) + 'vw';
+            word.style.top = (Math.random() * 60 + 20) + 'vh';
+            word.style.setProperty('--mx', (Math.random() * 100 - 50) + 'px');
+            word.style.setProperty('--my', (Math.random() * -100 - 50) + 'px');
+            word.style.setProperty('--d', (Math.random() * 3 + 4) + 's');
+
+            word.style.fontSize = (Math.random() * 1 + 1.2) + 'em';
+            const colors = ['#ffffff', '#ffb7c5', '#ff4d6d', '#ffd1dc'];
+            word.style.color = colors[Math.floor(Math.random() * colors.length)];
+
+            document.getElementById('video-page').appendChild(word);
+            setTimeout(() => word.remove(), 7000);
+        }
+
+        function handleStep() {
+            if (step === 1) {
+                document.getElementById('page1').classList.add('hidden');
+                document.getElementById('page2').classList.remove('hidden');
+                document.getElementById('hint').innerText = "One more tap for a surprise...";
+                step = 2;
+            } else if (step === 2) {
+                document.getElementById('page2').classList.add('hidden');
+                document.getElementById('video-page').classList.remove('hidden');
+
+                const v = document.getElementById('myVideo');
+                const a = document.getElementById('myAudio');
+
+                // 同时播放视频和音频
+                v.play();
+                a.play().catch(e => console.log("Audio play failed, user interaction needed."));
+
+                document.getElementById('hint').innerText = "Your favorite Rose —— Freud. For you!";
+                step = 3;
+                setInterval(spawnMemory, 400);
+            }
+        }
+
+        // 星空逻辑
+        const canvas = document.getElementById('canvas-stars');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        let stars = Array(150).fill().map(() => ({
+            x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+            size: Math.random() * 2, s: Math.random() * 0.6
+        }));
+        function animate() {
+            ctx.clearRect(0,0,canvas.width,canvas.height); ctx.fillStyle="white";
+            stars.forEach(s => {
+                ctx.beginPath(); ctx.arc(s.x, s.y, s.size, 0, Math.PI*2); ctx.fill();
+                s.y += s.s; if(s.y > canvas.height) s.y = 0;
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        function updateTimer() {
+            const diff = new Date() - start;
+            document.getElementById('timer').innerText = `${Math.floor(diff/86400000)} Days ${Math.floor((diff/3600000)%24)}h ${Math.floor((diff/60000)%60)}m ${Math.floor((diff/1000)%60)}s`;
+        }
+        setInterval(updateTimer, 1000);
+    </script>
+</body>
+</html>
